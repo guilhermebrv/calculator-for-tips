@@ -28,27 +28,34 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: ViewProtocol {
-    func tappedZeroButton() {
-        if viewModel.checkIfButtonIsSelected(button: screen?.zeroPctButton ?? UIButton()) {
+    func tappedPercentButton(_ sender: UIButton) {
+        sender.isSelected = true
+        if viewModel.checkIfButtonIsSelected(button: sender) {
             resetButtonBgColors()
-            screen?.zeroPctButton.configuration?.baseBackgroundColor = .systemGreen
+            sender.isSelected = true
+            sender.configuration?.baseBackgroundColor = .systemGreen.withAlphaComponent(0.5)
+            validateFields()
         }
     }
-    func tappedTenButton() {
-        if viewModel.checkIfButtonIsSelected(button: screen?.tenPctButton ?? UIButton()) {
-            resetButtonBgColors()
-            screen?.tenPctButton.configuration?.baseBackgroundColor = .systemGreen
-        }
+    func tappedStepper(_ sender: UIStepper) {
+        screen?.splitNumberLabel.text = String(Int(sender.value))
+        validateFields()
     }
-    func tappedTwentyButton() {
-        if viewModel.checkIfButtonIsSelected(button: screen?.twentyPctButton ?? UIButton()) {
-            resetButtonBgColors()
-            screen?.twentyPctButton.configuration?.baseBackgroundColor = .systemGreen
-        }
-    }
-    func resetButtonBgColors() {
+}
+
+extension ViewController {
+    public func resetButtonBgColors() {
         screen?.zeroPctButton.configuration?.baseBackgroundColor = .clear
         screen?.tenPctButton.configuration?.baseBackgroundColor = .clear
         screen?.twentyPctButton.configuration?.baseBackgroundColor = .clear
+    }
+    public func validateFields() {
+        if let textField = screen?.billTextField, let tip1 = screen?.zeroPctButton, let tip2 = screen?.tenPctButton, let tip3 = screen?.twentyPctButton {
+            if viewModel.checkIfFieldsAreFilled(textField, tip1, tip2, tip3) {
+                screen?.calculateButton.isEnabled = true
+            } else {
+                screen?.calculateButton.isEnabled = false
+            }
+        }
     }
 }

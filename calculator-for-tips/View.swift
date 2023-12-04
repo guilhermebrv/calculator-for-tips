@@ -8,9 +8,8 @@
 import UIKit
 
 protocol ViewProtocol: AnyObject {
-    func tappedZeroButton()
-    func tappedTenButton()
-    func tappedTwentyButton()
+    func tappedPercentButton(_ sender: UIButton)
+    func tappedStepper(_ sender: UIStepper)
 }
 
 class View: UIView {
@@ -52,6 +51,7 @@ class View: UIView {
         textField.tintColor = .black
         textField.font = .systemFont(ofSize: 28, weight: .regular)
         textField.textAlignment = .center
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
@@ -73,12 +73,12 @@ class View: UIView {
         configuration.attributedTitle = AttributedString("0%", attributes: AttributeContainer([NSAttributedString.Key.font :UIFont.systemFont(ofSize: 30)]))
         button.configuration = configuration
         button.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .regular)
-        button.addTarget(self, action: #selector(tappedZeroButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(tappedPercentButton), for: .touchUpInside)
         return button
     }()
     
-    @objc public func tappedZeroButton() {
-        delegate?.tappedZeroButton()
+    @objc public func tappedPercentButton(_ sender: UIButton) {
+        delegate?.tappedPercentButton(sender)
     }
     
     lazy var tenPctButton: UIButton = {
@@ -90,30 +90,22 @@ class View: UIView {
         configuration.attributedTitle = AttributedString("10%", attributes: AttributeContainer([NSAttributedString.Key.font :UIFont.systemFont(ofSize: 30)]))
         button.configuration = configuration
         button.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .regular)
-        button.addTarget(self, action: #selector(tappedTenButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(tappedPercentButton), for: .touchUpInside)
         return button
     }()
     
-    @objc public func tappedTenButton() {
-        delegate?.tappedTenButton()
-    }
-    
     lazy var twentyPctButton: UIButton = {
         let button = UIButton()
-        var configuration = UIButton.Configuration.tinted()
         button.translatesAutoresizingMaskIntoConstraints = false
+        var configuration = UIButton.Configuration.tinted()
         configuration.baseForegroundColor = .lightGray
         configuration.baseBackgroundColor = .clear
         configuration.attributedTitle = AttributedString("20%", attributes: AttributeContainer([NSAttributedString.Key.font :UIFont.systemFont(ofSize: 30)]))
         button.configuration = configuration
         button.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .regular)
-        button.addTarget(self, action: #selector(tappedTwentyButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(tappedPercentButton), for: .touchUpInside)
         return button
     }()
-    
-    @objc public func tappedTwentyButton() {
-        delegate?.tappedTwentyButton()
-    }
     
     lazy var chooseSplitLabel: UILabel = {
        let label = UILabel()
@@ -144,8 +136,13 @@ class View: UIView {
         let stepper = UIStepper()
         stepper.translatesAutoresizingMaskIntoConstraints = false
         stepper.minimumValue = 2
+        stepper.addTarget(self, action: #selector(tappedStepper), for: .valueChanged)
         return stepper
     }()
+    
+    @objc public func tappedStepper(_ sender: UIStepper) {
+        delegate?.tappedStepper(increaseSplitStepper)
+    }
     
     lazy var calculateButton: UIButton = {
         let button = UIButton()
@@ -156,6 +153,7 @@ class View: UIView {
         configuration.attributedTitle = AttributedString("Calculate", attributes: AttributeContainer([NSAttributedString.Key.font :UIFont.systemFont(ofSize: 25, weight: .bold)]))
         button.configuration = configuration
         button.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .regular)
+        button.isEnabled = false
         //button.addTarget(self, action: #selector(tappedCalculateButton), for: .touchUpInside)
         return button
     }()
@@ -231,7 +229,7 @@ class View: UIView {
             splitView.widthAnchor.constraint(equalToConstant: 160),
             
             splitNumberLabel.topAnchor.constraint(equalTo: splitView.topAnchor, constant: 10),
-            splitNumberLabel.leadingAnchor.constraint(equalTo: splitView.leadingAnchor, constant: 10),
+            splitNumberLabel.trailingAnchor.constraint(equalTo: increaseSplitStepper.leadingAnchor, constant: -20),
             
             increaseSplitStepper.trailingAnchor.constraint(equalTo: splitView.trailingAnchor, constant: -10),
             increaseSplitStepper.centerYAnchor.constraint(equalTo: splitNumberLabel.centerYAnchor),
