@@ -7,6 +7,13 @@
 
 import UIKit
 
-class ViewModel: NSObject {
+class ViewModel {
 
+    public func checkIfButtonIsSelected(button: UIButton) -> Bool {
+        if button.configuration?.baseBackgroundColor == .clear {
+            return true
+        } else {
+            return false
+        }
+    }
 }

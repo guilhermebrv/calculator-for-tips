@@ -9,7 +9,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private var screen: View?
+    public var screen: View?
+    private var viewModel: ViewModel = ViewModel()
     
     override func loadView() {
         screen = View()
@@ -28,14 +29,26 @@ class ViewController: UIViewController {
 
 extension ViewController: ViewProtocol {
     func tappedZeroButton() {
-        <#code#>
+        if viewModel.checkIfButtonIsSelected(button: screen?.zeroPctButton ?? UIButton()) {
+            resetButtonBgColors()
+            screen?.zeroPctButton.configuration?.baseBackgroundColor = .systemGreen
+        }
     }
-    
     func tappedTenButton() {
-        <#code#>
+        if viewModel.checkIfButtonIsSelected(button: screen?.tenPctButton ?? UIButton()) {
+            resetButtonBgColors()
+            screen?.tenPctButton.configuration?.baseBackgroundColor = .systemGreen
+        }
     }
-    
     func tappedTwentyButton() {
-        <#code#>
+        if viewModel.checkIfButtonIsSelected(button: screen?.twentyPctButton ?? UIButton()) {
+            resetButtonBgColors()
+            screen?.twentyPctButton.configuration?.baseBackgroundColor = .systemGreen
+        }
+    }
+    func resetButtonBgColors() {
+        screen?.zeroPctButton.configuration?.baseBackgroundColor = .clear
+        screen?.tenPctButton.configuration?.baseBackgroundColor = .clear
+        screen?.twentyPctButton.configuration?.baseBackgroundColor = .clear
     }
 }

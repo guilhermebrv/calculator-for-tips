@@ -78,7 +78,7 @@ class View: UIView {
     }()
     
     @objc public func tappedZeroButton() {
-        delegate.tappedZeroButton()
+        delegate?.tappedZeroButton()
     }
     
     lazy var tenPctButton: UIButton = {
@@ -95,7 +95,7 @@ class View: UIView {
     }()
     
     @objc public func tappedTenButton() {
-        delegate.tappedTenButton()
+        delegate?.tappedTenButton()
     }
     
     lazy var twentyPctButton: UIButton = {
@@ -112,7 +112,7 @@ class View: UIView {
     }()
     
     @objc public func tappedTwentyButton() {
-        delegate.tappedTwentyButton()
+        delegate?.tappedTwentyButton()
     }
     
     lazy var chooseSplitLabel: UILabel = {
@@ -153,7 +153,7 @@ class View: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         configuration.baseForegroundColor = .white
         configuration.baseBackgroundColor = .systemGreen
-        configuration.attributedTitle = AttributedString("Calculate", attributes: AttributeContainer([NSAttributedString.Key.font :UIFont.systemFont(ofSize: 25)]))
+        configuration.attributedTitle = AttributedString("Calculate", attributes: AttributeContainer([NSAttributedString.Key.font :UIFont.systemFont(ofSize: 25, weight: .bold)]))
         button.configuration = configuration
         button.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .regular)
         //button.addTarget(self, action: #selector(tappedCalculateButton), for: .touchUpInside)
