@@ -34,6 +34,6 @@ class CalculateViewModel {
             totalWithTip = total * (1.0 + (percent / 100.0))
         }
         let valueForEach = totalWithTip / (Double(numberOfPeople) ?? 2.0)
-        return String(valueForEach)
+        return String(format: "%.2f", valueForEach)
     }
 }

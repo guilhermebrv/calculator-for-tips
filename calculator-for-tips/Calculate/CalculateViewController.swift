@@ -34,7 +34,7 @@ extension CalculateViewController: CalculateViewProtocol {
         if let totalBill = screen?.billTextField.text, let percent = tipButton.titleLabel?.text, let people = screen?.splitNumberLabel.text {
             result = viewModel.calculateTip(totalAmount: totalBill, tipPercent: percent, numberOfPeople: people)
         }
-        presentModal()
+        presentModal(result: result)
     }
     
     func tappedPercentButton(_ sender: UIButton) {
@@ -67,8 +67,8 @@ extension CalculateViewController {
             }
         }
     }
-    public func presentModal() {
-        let modal = ResultViewController()
+    public func presentModal(result: String) {
+        let modal = ResultViewController(result: result, numberOfPeople: screen?.splitNumberLabel.text ?? "", percentTip: tipButton.titleLabel?.text ?? "")
         present(modal, animated: true)
     }
 }
