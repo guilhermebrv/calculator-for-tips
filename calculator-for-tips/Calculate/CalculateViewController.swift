@@ -21,10 +21,20 @@ class CalculateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         signProtocols()
+        dismissKeyBoard()
     }
     
     private func signProtocols() {
         screen?.delegate(delegate: self)
+        screen?.billTextField.delegate = self
+    }
+}
+
+extension CalculateViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let allowedCharacterSet = CharacterSet(charactersIn: "0123456789.,")
+        let isValidInput = string.rangeOfCharacter(from: allowedCharacterSet.inverted) == nil
+        return isValidInput
     }
 }
 
@@ -35,6 +45,7 @@ extension CalculateViewController: CalculateViewProtocol {
             result = viewModel.calculateTip(totalAmount: totalBill, tipPercent: percent, numberOfPeople: people)
         }
         presentModal(result: result)
+        resetCalculateScreen()
     }
     
     func tappedPercentButton(_ sender: UIButton) {
@@ -53,12 +64,17 @@ extension CalculateViewController: CalculateViewProtocol {
 }
 
 extension CalculateViewController {
-    public func resetButtonBgColors() {
+    private func dismissKeyBoard() {
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    private func resetButtonBgColors() {
         screen?.zeroPctButton.configuration?.baseBackgroundColor = .clear
         screen?.tenPctButton.configuration?.baseBackgroundColor = .clear
         screen?.twentyPctButton.configuration?.baseBackgroundColor = .clear
     }
-    public func validateFields() {
+    private func validateFields() {
         if let textField = screen?.billTextField, let tip1 = screen?.zeroPctButton, let tip2 = screen?.tenPctButton, let tip3 = screen?.twentyPctButton {
             if viewModel.checkIfFieldsAreFilled(textField, tip1, tip2, tip3) {
                 screen?.calculateButton.isEnabled = true
@@ -67,8 +83,13 @@ extension CalculateViewController {
             }
         }
     }
-    public func presentModal(result: String) {
+    private func presentModal(result: String) {
         let modal = ResultViewController(result: result, numberOfPeople: screen?.splitNumberLabel.text ?? "", percentTip: tipButton.titleLabel?.text ?? "")
         present(modal, animated: true)
+    }
+    private func resetCalculateScreen() {
+        screen?.billTextField.text = ""
+        screen?.increaseSplitStepper.value = 2
+        resetButtonBgColors()
     }
 }
