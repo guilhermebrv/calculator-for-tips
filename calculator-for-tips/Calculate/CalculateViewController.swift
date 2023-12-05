@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CalculateViewController.swift
 //  calculator-for-tips
 //
 //  Created by Guilherme Viana on 04/12/2023.
@@ -7,14 +7,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculateViewController: UIViewController {
     
-    public var screen: View?
-    private var viewModel: ViewModel = ViewModel()
+    public var screen: CalculateView?
+    private var viewModel: CalculateViewModel = CalculateViewModel()
     private var tipButton: UIButton = UIButton()
     
     override func loadView() {
-        screen = View()
+        screen = CalculateView()
         view = screen
     }
 
@@ -28,13 +28,13 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: ViewProtocol {
+extension CalculateViewController: CalculateViewProtocol {
     func tappedCalculateButton() {
         var result = ""
         if let totalBill = screen?.billTextField.text, let percent = tipButton.titleLabel?.text, let people = screen?.splitNumberLabel.text {
             result = viewModel.calculateTip(totalAmount: totalBill, tipPercent: percent, numberOfPeople: people)
         }
-        print(result)
+        presentModal()
     }
     
     func tappedPercentButton(_ sender: UIButton) {
@@ -52,7 +52,7 @@ extension ViewController: ViewProtocol {
     }
 }
 
-extension ViewController {
+extension CalculateViewController {
     public func resetButtonBgColors() {
         screen?.zeroPctButton.configuration?.baseBackgroundColor = .clear
         screen?.tenPctButton.configuration?.baseBackgroundColor = .clear
@@ -66,5 +66,9 @@ extension ViewController {
                 screen?.calculateButton.isEnabled = false
             }
         }
+    }
+    public func presentModal() {
+        let modal = ResultViewController()
+        present(modal, animated: true)
     }
 }

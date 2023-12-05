@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  CalculateViewModel.swift
 //  calculator-for-tips
 //
 //  Created by Guilherme Viana on 04/12/2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewModel {
+class CalculateViewModel {
     
     public func checkIfButtonIsSelected(button: UIButton) -> Bool {
         if button.isSelected {

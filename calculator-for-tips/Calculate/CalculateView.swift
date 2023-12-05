@@ -7,16 +7,16 @@
 
 import UIKit
 
-protocol ViewProtocol: AnyObject {
+protocol CalculateViewProtocol: AnyObject {
     func tappedPercentButton(_ sender: UIButton)
     func tappedStepper(_ sender: UIStepper)
     func tappedCalculateButton()
 }
 
-class View: UIView {
+class CalculateView: UIView {
     
-    private weak var delegate: ViewProtocol?
-    public func delegate(delegate: ViewProtocol) {
+    private weak var delegate: CalculateViewProtocol?
+    public func delegate(delegate: CalculateViewProtocol) {
         self.delegate = delegate
     }
     
@@ -153,7 +153,6 @@ class View: UIView {
         configuration.baseBackgroundColor = .systemGreen
         configuration.attributedTitle = AttributedString("Calculate", attributes: AttributeContainer([NSAttributedString.Key.font :UIFont.systemFont(ofSize: 25, weight: .bold)]))
         button.configuration = configuration
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .regular)
         button.isEnabled = false
         button.addTarget(self, action: #selector(tappedCalculateButton), for: .touchUpInside)
         return button
@@ -239,7 +238,7 @@ class View: UIView {
             increaseSplitStepper.trailingAnchor.constraint(equalTo: splitView.trailingAnchor, constant: -10),
             increaseSplitStepper.centerYAnchor.constraint(equalTo: splitNumberLabel.centerYAnchor),
             
-            calculateButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            calculateButton.bottomAnchor.constraint(equalTo: totalView.safeAreaLayoutGuide.bottomAnchor),
             calculateButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             calculateButton.heightAnchor.constraint(equalToConstant: 60),
             calculateButton.widthAnchor.constraint(equalToConstant: 180),
