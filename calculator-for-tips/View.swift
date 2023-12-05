@@ -10,6 +10,7 @@ import UIKit
 protocol ViewProtocol: AnyObject {
     func tappedPercentButton(_ sender: UIButton)
     func tappedStepper(_ sender: UIStepper)
+    func tappedCalculateButton()
 }
 
 class View: UIView {
@@ -154,9 +155,13 @@ class View: UIView {
         button.configuration = configuration
         button.titleLabel?.font = UIFont.systemFont(ofSize: 30, weight: .regular)
         button.isEnabled = false
-        //button.addTarget(self, action: #selector(tappedCalculateButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(tappedCalculateButton), for: .touchUpInside)
         return button
     }()
+    
+    @objc public func tappedCalculateButton() {
+        delegate?.tappedCalculateButton()
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

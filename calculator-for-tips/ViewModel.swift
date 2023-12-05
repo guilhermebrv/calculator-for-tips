@@ -27,7 +27,13 @@ class ViewModel {
         }
     }
     
-    public func calculateTip() {
-        
+    public func calculateTip(totalAmount: String, tipPercent: String, numberOfPeople: String) -> String {
+        var totalWithTip = 0.0
+        let tipValue = tipPercent.replacingOccurrences(of: "%", with: "")
+        if let total = Double(totalAmount), let percent = Double(tipValue) {
+            totalWithTip = total * (1.0 + (percent / 100.0))
+        }
+        let valueForEach = totalWithTip / (Double(numberOfPeople) ?? 2.0)
+        return String(valueForEach)
     }
 }

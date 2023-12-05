@@ -11,6 +11,7 @@ class ViewController: UIViewController {
     
     public var screen: View?
     private var viewModel: ViewModel = ViewModel()
+    private var tipButton: UIButton = UIButton()
     
     override func loadView() {
         screen = View()
@@ -28,11 +29,19 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: ViewProtocol {
+    func tappedCalculateButton() {
+        var result = ""
+        if let totalBill = screen?.billTextField.text, let percent = tipButton.titleLabel?.text, let people = screen?.splitNumberLabel.text {
+            result = viewModel.calculateTip(totalAmount: totalBill, tipPercent: percent, numberOfPeople: people)
+        }
+        print(result)
+    }
+    
     func tappedPercentButton(_ sender: UIButton) {
         sender.isSelected = true
         if viewModel.checkIfButtonIsSelected(button: sender) {
+            tipButton = sender
             resetButtonBgColors()
-            sender.isSelected = true
             sender.configuration?.baseBackgroundColor = .systemGreen.withAlphaComponent(0.5)
             validateFields()
         }
