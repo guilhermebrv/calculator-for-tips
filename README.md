@@ -14,7 +14,7 @@ This project marks a significant milestone in my journey through the ["iOS & Swi
 
 - **Modal Transition:** Created a smooth transition between the calculation screen and the result screen using a modal.
 
-- **MVVM Architecture:** Adopted the MVVM design pattern to enhance code organization and maintainability.
+- **MVVM Architecture + Viewcode:**: Transformed the project architecture to adhere to the MVVM (Model-View-ViewModel) design pattern using ViewCode. This adaptation from the initial MVC (Model-View-Controller) and Storyboard structure in the course's project sketch resulted in a more organized and modular codebase.
 
 ## How to Use
 
